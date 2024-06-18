@@ -3,11 +3,17 @@
 
 session_start();
 
-$frontpage = [
-  'text' => 'Book Name',
-  'backgroundImage' => 'background1.jpg',
-  'author' => 'Your Name'
-];
+
+if (!isset($_SESSION['frontpage'])) {
+  $_SESSION['frontpage'] = [
+    'text' => 'Book Name',
+    'backgroundImage' => 'background1.jpg',
+    'author' => 'Your Name'
+  ];
+}
+
+
+$frontpage = $_SESSION['frontpage'];
 
 
 // Check if form is submitted
@@ -17,7 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $frontpage['author'] = $_POST['author_name'] ?? $frontpage['author'];
     // Handle file upload for front cover (you might want to validate and handle this properly)
     $frontpage['backgroundImage'] = $_POST['front_encoded']??$frontpage['backgroundImage'];
-}
+
+
+    $_SESSION['frontpage'] = $frontpage;
+  }
 ?>
 
 

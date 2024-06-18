@@ -2,13 +2,19 @@
 
 session_start();
 
-$backpage = [
-  'text' => 'Book Name',
-  'author' => 'Your Name',
-  'authorImage' => 'background1.jpg',
-  'backgroundImage' => 'background1.jpg',
-  'authorMessage' => 'Your Message',
-];
+if (!isset($_SESSION['backpage'])) {
+  $_SESSION['backpage'] = [
+    'text' => 'Book Name',
+    'author' => 'Your Name',
+    'authorImage' => 'background1.jpg',
+    'backgroundImage' => 'background1.jpg',
+    'authorMessage' => 'Your Message',
+  ];
+}
+
+
+
+$backpage = $_SESSION['backpage'];
 
 
 
@@ -21,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file upload for back cover
     $backpage['backgroundImage'] = $_POST['back_encoded']??$backpage['backgroundImage'];
     $backpage['authorImage'] = $_POST['back_encoded_author']??$backpage['authorImage'];
+
+    $_SESSION['backpage']=$backpage;
 }
 ?>
 
